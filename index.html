@@ -24,6 +24,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
+    <!-- Lenis Smooth Scroll (Ultra Smooth Performance) -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
     <!-- Visitor Analytics Tracker -->
     <script src="visitor-tracker.js"></script>
 
@@ -223,7 +226,7 @@
     <div id="main-view" class="page-view">
         <main class="container mx-auto px-6 pt-32 pb-12">
             <!-- Hero Section -->
-            <section class="text-center py-20 animate-on-scroll">
+            <section class="text-center py-20 reveal">
                 <h2
                     class="text-5xl md:text-7xl font-black mb-4 tracking-tighter text-white leading-tight min-h-[160px] md:min-h-[200px] flex flex-col justify-center">
                     The Ultimate<br>
@@ -237,7 +240,7 @@
             </section>
 
             <!-- OS Tab Navigation -->
-            <section id="os-tabs" class="mb-12 animate-on-scroll">
+            <section id="os-tabs" class="mb-12 reveal">
                 <div class="max-w-xl mx-auto glass-card !bg-gray-900/40 p-1 flex justify-between rounded-full">
                     <button id="tab-windows" onclick="switchOS('windows')"
                         class="flex-1 py-3 px-6 text-lg font-semibold rounded-full transition-all duration-300 text-white bg-indigo-600 shadow-md shadow-indigo-500/50">
@@ -249,7 +252,7 @@
             <div id="windows-content">
                 <!-- Easy Workflow Showcase Section (Windows) -->
                 <!-- Banner Carousel Section -->
-                <section id="banner-carousel-section" class="mb-20 animate-on-scroll relative group">
+                <section id="banner-carousel-section" class="mb-20 reveal relative group">
                     <div id="banner-carousel-container"
                         class="overflow-hidden relative w-full min-h-[500px] md:min-h-[600px] py-10">
                         <!-- Slides Wrapper -->
@@ -295,7 +298,7 @@
                 </section>
 
                 <!-- Software Section (Windows) -->
-                <section id="software" class="mb-20 animate-on-scroll">
+                <section id="software" class="mb-20 reveal">
                     <h3 id="header-adobeSoftware"
                         class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-indigo-500 pl-4">
                         Adobe Software</h3>
@@ -305,7 +308,7 @@
                 </section>
 
                 <!-- Plugins Section (Windows) -->
-                <section id="plugins" class="mb-20 animate-on-scroll">
+                <section id="plugins" class="mb-20 reveal">
                     <h3 id="header-plugins"
                         class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-purple-500 pl-4">
                         Plugins</h3>
@@ -315,7 +318,7 @@
                 </section>
 
                 <!-- Scripts & Extensions Section (Windows) -->
-                <section id="scripts" class="mb-20 animate-on-scroll">
+                <section id="scripts" class="mb-20 reveal">
                     <h3 id="header-scripts"
                         class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-teal-500 pl-4">
                         Scripts & Extensions</h3>
@@ -325,7 +328,7 @@
                 </section>
 
                 <!-- Assets Section (Windows) -->
-                <section id="assets" class="mb-20 animate-on-scroll">
+                <section id="assets" class="mb-20 reveal">
                     <h3 id="header-assets"
                         class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-rose-500 pl-4">
                         Assets</h3>
@@ -335,7 +338,7 @@
                 </section>
 
                 <!-- Utilities Section (Windows) -->
-                <section id="utilities" class="mb-20 animate-on-scroll">
+                <section id="utilities" class="mb-20 reveal">
                     <h3 id="header-utilities"
                         class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-yellow-500 pl-4">
                         Utilities & Other Software</h3>
@@ -345,7 +348,7 @@
                 </section>
 
                 <!-- Courses Section -->
-                <section id="courses" class="mb-20 animate-on-scroll">
+                <section id="courses" class="mb-20 reveal">
                     <h3 id="header-courses"
                         class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-emerald-500 pl-4">
                         Courses</h3>
@@ -355,7 +358,7 @@
                 </section>
 
                 <!-- Other Plugins Section (Windows) -->
-                <section id="other-plugins" class="mb-20 animate-on-scroll">
+                <section id="other-plugins" class="mb-20 reveal">
                     <div class="glass-card rounded-xl p-6 md:p-8 flex flex-col gap-6">
                         <div class="flex flex-col items-center text-center">
                             <h5 id="plugins-pack-title" class="text-2xl font-bold text-white mb-4">
@@ -377,7 +380,7 @@
             </div>
 
             <!-- Request a Resource Section -->
-            <section id="request-resource" class="mb-20 animate-on-scroll">
+            <section id="request-resource" class="mb-20 reveal">
                 <div class="glass-card p-8">
                     <h3 id="missing-resource-title"
                         class="text-3xl font-bold text-white tracking-tight mb-4 text-center">Missing a Resource?</h3>
@@ -415,7 +418,7 @@
 
         </main>
 
-        <footer class="border-t border-gray-800/50 animate-on-scroll">
+        <footer class="border-t border-gray-800/50 reveal">
             <div class="container mx-auto px-6 py-6 text-center text-gray-500">
                 <p>&copy; <span id="current-year"></span> Harsh Edits. All rights reserved. A resource hub for the
                     community.</p>
@@ -484,6 +487,7 @@
     <div id="item-detail-view" class="page-view hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
         <!-- Backdrop -->
         <div class="absolute inset-0 bg-black/80"
+            style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
             onclick="goBackToMain(window.lastViewedSection)"></div>
 
         <!-- Modal Card (Refined Dark Theme) -->
@@ -591,7 +595,8 @@
     <!-- Profile Overlay Modal -->
     <div id="profile-modal" class="fixed inset-0 z-[100] hidden">
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/60  transition-opacity duration-300 opacity-0"
+        <div class="absolute inset-0 bg-black/60 transition-opacity duration-300 opacity-0"
+            style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
             id="profile-backdrop" onclick="closeProfileModal()"></div>
 
         <!-- Modal Card -->
@@ -724,7 +729,7 @@
                 </svg>
                 <span>Back to Resources</span>
             </button>
-            <div class="text-center mb-16 animate-on-scroll">
+            <div class="text-center mb-16 reveal">
                 <h2 class="text-4xl md:text-5xl font-black mb-4 text-white">Your <span
                         class="gradient-text">Favorites</span></h2>
                 <p class="text-gray-400 text-lg max-w-2xl mx-auto">Access your saved software, plugins, and assets in
@@ -780,7 +785,9 @@
 
     <!-- Item Detail View Modal -->
     <div id="item-detail-view" class="fixed inset-0 z-50 hidden flex items-center justify-center">
-        <div class="absolute inset-0 bg-black/95" onclick="closeItemDetail()"></div>
+        <div class="absolute inset-0 bg-black/90" 
+            style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+            onclick="closeItemDetail()"></div>
         <div
             class="relative z-10 w-full max-w-4xl bg-[#0f172a] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] mx-4">
             <button onclick="closeItemDetail()"
@@ -815,7 +822,8 @@
     <div id="report-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
         <!-- Backdrop -->
         <div id="report-backdrop"
-            class="absolute inset-0 bg-black/70  opacity-0 transition-opacity duration-300"></div>
+            class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-300"
+            style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"></div>
 
         <!-- Modal Card -->
         <div id="report-card"
@@ -1049,6 +1057,51 @@
 
 
 
+    <!-- Lenis Initialization -->
+    <script>
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        })
+
+        function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+
+        requestAnimationFrame(raf);
+
+        // Sync with scroll-to-section functions
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                lenis.scrollTo(this.getAttribute('href'));
+            });
+        });
+        // Reveal on Scroll Initialization
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+    </script>
 </body>
 
 

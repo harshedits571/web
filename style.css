@@ -159,7 +159,7 @@ body.is-transitioning {
     border-radius: 2rem;
     position: relative;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform;
 }
 
@@ -439,7 +439,25 @@ body.is-transitioning {
 }
 
 body.is-leaving .page-view:not(.hidden) {
-    animation: fadeOut 0.4s ease-in forwards;
+/* --- Ultra Smooth Section Reveal --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hover-magnetic {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-magnetic:hover {
+    transform: scale(1.02) translateY(-2px);
 }
 
 @keyframes slideIn {
@@ -872,7 +890,7 @@ header {
     left: 0;
     right: 0;
     z-index: 10001;
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 header.scrolled {
@@ -904,7 +922,7 @@ header.scrolled {
     opacity: 0;
     pointer-events: none;
     transform: translateY(20px);
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 500;
     box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.5);
 }
