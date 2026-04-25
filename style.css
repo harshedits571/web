@@ -371,7 +371,7 @@ body.is-transitioning {
     color: #a78bfa; /* Static color for performance */
 }
 
-@keyframes gradient-flow { display: none; }
+/* Animation disabled for performance */
 
 /* --- Enhanced Gradient Button --- */
 .gradient-btn {
