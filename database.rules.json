@@ -1,0 +1,90 @@
+{
+    "rules": {
+        "users": {
+            ".indexOn": ["email"],
+            // PERMISSION FOR ADMIN TO READ ALL USERS, or ALLOW EXACT EMAIL QUERY FOR SUB-ADMIN LOGIN
+            ".read": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || (query.orderByChild == 'email' && query.equalTo != null)",
+            "$uid": {
+                // Individual user access (User themselves OR Admin)
+                ".read": "$uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true",
+                ".write": "$uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true"
+            }
+        },
+        // User Messages (Fixes Dashboard Stats)
+        "userMessages": {
+            ".read": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null",
+            ".write": "auth != null"
+        },
+        // Broken Link Reports
+        "brokenLinkReports": {
+            ".read": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null",
+            ".write": "auth != null"
+        },
+        // PUBLIC CONTENT SECTIONS
+        "adobeSoftware": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "plugins": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "scripts": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "assets": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "utilities": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "courses": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "banners": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "settings": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "easyWorkflow": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "simplePluginsList": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "siteText": {
+            ".read": true,
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "registeredAssets": {
+            ".read": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null",
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        "auditLogs": {
+            ".read": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null",
+            ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null"
+        },
+        // Visitor Analytics — anyone can write (needed for tracking), only admin can read
+        "analytics": {
+            ".read": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true || root.child('users').child(auth.uid).child('allowedSections').val() != null",
+            ".write": true
+        },
+        "transactions": {
+            ".read": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true",
+            ".write": "auth != null"
+        },
+        "activities": {
+            ".read": "root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'sub-admin' || root.child('users').child(auth.uid).child('isAdmin').val() === true",
+            ".write": "auth != null"
+        }
+    }
+}

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Analytics — HarshEdits Admin</title>
+    <script src="assets/libs/tailwind.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #030305;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .glass {
+            background: rgba(15, 15, 25, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 1.25rem;
+        }
+
+        .stat-card {
+            background: rgba(15, 15, 25, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
+        }
+
+        .day-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .day-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .day-bar-bg {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .day-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #6d28d9, #db2777);
+            border-radius: 999px;
+            transition: width 1s ease;
+        }
+
+        .day-count {
+            font-size: 0.75rem;
+            color: #64748b;
+            width: 30px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #030305;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(139, 92, 246, 0.2);
+            border-top-color: #8b5cf6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="text-center">
+            <div class="spinner mx-auto mb-4"></div>
+            <p style="color:#64748b; font-size:0.875rem;">Loading analytics...</p>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="auth.js"></script>
+
+    <div id="app" class="hidden min-h-screen p-6 max-w-5xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <a href="admin.html" style="color:#6b7280; font-size:0.875rem; text-decoration:none;"
+                    class="hover:text-white">← Back to Admin</a>
+                <h1 class="text-3xl font-black text-white mt-1">
+                    Visitor <span
+                        style="background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Analytics</span>
+                </h1>
+                <p style="color:#64748b;font-size:0.875rem;">Real-time usage data from your Firebase database</p>
+            </div>
+            <div class="flex items-center gap-2" style="color:#22c55e;font-size:0.875rem;font-weight:600;">
+                <span class="pulse-dot"></span> Live
+            </div>
+        </div>
+
+        <!-- Top Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-total-views">—</div>
+                <div class="stat-label">Total Page Views</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-unique">—</div>
+                <div class="stat-label">Unique Visitors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-today">—</div>
+                <div class="stat-label">Views Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-today-unique">—</div>
+                <div class="stat-label">Unique Today</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- Daily Chart (Last 7 Days) -->
+            <div class="glass p-6">
+                <h2 class="text-white font-bold mb-4 text-lg">📈 Last 7 Days</h2>
+                <div id="daily-chart">
+                    <p style="color:#64748b;font-size:0.875rem;">Loading...</p>
+                </div>
+            </div>
+
+            <!-- Devices -->
+            <div class="glass p-6">
+                <h2 class="text-white font-bold mb-4 text-lg">📱 Device Breakdown</h2>
+                <div id="device-chart">
+                    <p style="color:#64748b;font-size:0.875rem;">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Region Breakdown -->
+        <div class="glass p-6 mb-8">
+            <h2 class="text-white font-bold mb-4 text-lg">🌍 Visitor Regions (Timezone-based)</h2>
+            <div id="region-chart">
+                <p style="color:#64748b;font-size:0.875rem;">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Note -->
+        <div
+            style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:1rem;padding:1.25rem;">
+            <p style="color:#a5b4fc;font-size:0.875rem;">
+                💡 <strong>Tip:</strong> For even more detailed analytics (traffic sources, countries, session
+                duration),
+                set up <strong>Google Analytics 4</strong> — it's free and takes 5 minutes.
+                Ask me to set it up and I'll walk you through it!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Wait for Firebase to init (from auth.js)
+        function waitForFirebase(cb) {
+            if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) cb();
+            else setTimeout(() => waitForFirebase(cb), 300);
+        }
+
+        waitForFirebase(() => {
+            const db = firebase.database();
+            const today = new Date().toISOString().split('T')[0];
+
+            // Hide loading, show app
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 500);
+                document.getElementById('app').classList.remove('hidden');
+            }, 800);
+
+            // ── Total stats ──
+            db.ref('analytics/totalPageViews').on('value', s => {
+                document.getElementById('stat-total-views').textContent = (s.val() || 0).toLocaleString();
+            });
+            db.ref('analytics/uniqueVisitors').on('value', s => {
+                document.getElementById('stat-unique').textContent = (s.val() || 0).toLocaleString();
+            });
+            db.ref('analytics/daily/' + today + '/pageViews').on('value', s => {
+                document.getElementById('stat-today').textContent = (s.val() || 0).toLocaleString();
+            });
+            db.ref('analytics/daily/' + today + '/uniqueVisitors').on('value', s => {
+                document.getElementById('stat-today-unique').textContent = (s.val() || 0).toLocaleString();
+            });
+
+            // ── Daily bar chart (last 7 days) ──
+            db.ref('analytics/daily').once('value', s => {
+                const data = s.val() || {};
+                const days = [];
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    const key = d.toISOString().split('T')[0];
+                    const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    days.push({ key, label, views: (data[key] || {}).pageViews || 0 });
+                }
+                const maxViews = Math.max(...days.map(d => d.views), 1);
+                const html = days.map(d => `
+                    <div class="day-bar-wrap">
+                        <span class="day-label">${d.label}</span>
+                        <div class="day-bar-bg">
+                            <div class="day-bar" style="width:${Math.round(d.views / maxViews * 100)}%"></div>
+                        </div>
+                        <span class="day-count">${d.views}</span>
+                    </div>`).join('');
+                document.getElementById('daily-chart').innerHTML = html;
+            });
+
+            // ── Device breakdown ──
+            db.ref('analytics/byDevice').once('value', s => {
+                const data = s.val() || {};
+                const total = Object.values(data).reduce((a, b) => a + b, 0) || 1;
+                const icons = { desktop: '🖥️', mobile: '📱', tablet: '📟' };
+                const colors = { desktop: '#6366f1', mobile: '#f472b6', tablet: '#22c55e' };
+                const html = Object.entries(data).map(([key, val]) => `
+                    <div class="day-bar-wrap">
+                        <span class="day-label">${icons[key] || '💻'} ${key}</span>
+                        <div class="day-bar-bg">
+                            <div class="day-bar" style="width:${Math.round(val / total * 100)}%;background:${colors[key] || '#6366f1'}"></div>
+                        </div>
+                        <span class="day-count">${val}</span>
+                    </div>`).join('') || '<p style="color:#64748b;font-size:0.875rem;">No data yet</p>';
+                document.getElementById('device-chart').innerHTML = html;
+            });
+
+            // ── Region breakdown ──
+            db.ref('analytics/byRegion').once('value', s => {
+                const data = s.val() || {};
+                const sorted = Object.entries(data).sort((a, b) => b[1] - a[1]).slice(0, 8);
+                const max = sorted[0] ? sorted[0][1] : 1;
+                const html = sorted.map(([key, val]) => `
+                    <div class="day-bar-wrap">
+                        <span class="day-label">${key.replace(/_/g, ' ')}</span>
+                        <div class="day-bar-bg">
+                            <div class="day-bar" style="width:${Math.round(val / max * 100)}%"></div>
+                        </div>
+                        <span class="day-count">${val}</span>
+                    </div>`).join('') || '<p style="color:#64748b;font-size:0.875rem;">No data yet — upload and visit the site first!</p>';
+                document.getElementById('region-chart').innerHTML = html;
+            });
+        });
+    </script>
+</body>
+
+</html>

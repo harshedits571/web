@@ -1,0 +1,1092 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harsh Edits - Pro Editing Resources</title>
+
+    <!-- Fonts: Serve locally with CDN fallback -->
+    <style>
+        /* Inter font - loaded from Google CDN with system font fallback */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+        /* Fallback if Google Fonts is blocked */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+    </style>
+
+    <!-- Tailwind CSS - Local copy (works on all DNS/ISPs) -->
+    <script src="assets/libs/tailwind.min.js"></script>
+
+    <!-- Font Awesome Icons - Local copy (works on all DNS/ISPs) -->
+    <link rel="stylesheet" href="assets/libs/font-awesome.min.css">
+
+    <!-- Firebase Compat SDKs (Non-Module for file:// support) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <!-- Visitor Analytics Tracker -->
+    <script src="visitor-tracker.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="antialiased">
+    <!-- UI Polishes -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- Preloader -->
+    <div id="preloader"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px;">
+
+        <!-- Light Leaks -->
+        <div class="light-leak leak-1"></div>
+        <div class="light-leak leak-2"></div>
+        <div class="light-leak leak-3"></div>
+
+        <h1 class="absolute top-[15%] text-6xl md:text-7xl font-bold tracking-tighter text-white mb-2 select-none z-10">
+            Harsh<span class="gradient-text">Edits</span></h1>
+        <img src="load.gif" alt="Loading..." style="width: 250px; height: 250px; object-fit: contain; z-index: 10;">
+        <div class="text-white/70 font-medium tracking-widest text-xs uppercase animate-pulse z-10">Loading...</div>
+    </div>
+
+    <!-- Donation Popup Modal -->
+    <div id="donation-popup" class="hidden">
+        <div class="glass-card donation-content p-12 max-w-xl w-11/12 text-center relative">
+            <h3 class="text-3xl font-black gradient-text mb-2">Show Your Support!</h3>
+            <p class="text-gray-300 mb-6">
+                All the software, plugins, and resources here are provided **completely free** for the community. If you
+                found this helpful and appreciate the hard work, consider a small donation to keep the hub running!
+            </p>
+
+            <!-- UPI QR Code Placeholder -->
+            <img src="assets/QR.png" id="donation-qr" alt="UPI QR Code for Donation"
+                class="w-48 h-48 mx-auto rounded-xl mb-4 border-4 border-indigo-400 p-2 bg-white object-contain"
+                onerror="this.onerror=null; this.src='https://placehold.co/200x200/4c1d95/fff?text=QR+Code+Error';">
+
+            <p class="text-xl font-bold text-white mb-4">Scan & Donate via UPI</p>
+
+            <!-- Timer/Message Area -->
+            <p id="donation-timer" class="text-sm text-gray-400 transition-opacity duration-1000">
+                Automatically redirecting in <span class="font-bold text-indigo-400">5</span> seconds...
+            </p>
+        </div>
+    </div>
+
+    <div id="mouse-follower"></div>
+
+    <!-- Animated Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-shape shape1"></div>
+        <div class="mesh-shape shape2"></div>
+        <div class="mesh-shape shape3"></div>
+        <div class="mesh-shape shape4"></div>
+    </div>
+
+    <!-- Background Video (Controlled via Banner Settings) -->
+    <div class="fixed inset-0 w-full h-full -z-[5] pointer-events-none overflow-hidden">
+        <video id="landing-bg-video" loop muted playsinline
+            class="absolute top-0 left-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 hidden">
+            <source src="assets/bg-video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="w-full px-[2vw] xl:px-8 py-2 xl:py-4 max-w-[1820px] mx-auto transition-all duration-300">
+            <div id="header-glass-card"
+                class="glass-card !rounded-full !overflow-visible px-[1.5vw] xl:px-6 py-2 flex justify-between items-center w-full transition-all duration-300 origin-top">
+                <!-- Left Section: Logo + Search -->
+                <div class="flex items-center fluid-header-gap transition-all duration-300">
+                    <h1 onclick="navigateToSection('easy-workflow-showcase'); return false;"
+                        class="fluid-logo font-bold tracking-tighter text-white cursor-pointer hover:scale-105 transition-all duration-300 select-none whitespace-nowrap">
+                        Harsh<span class="gradient-text">Edits</span>
+                    </h1>
+                    <div class="relative hidden lg:block fluid-search-container group transition-all duration-300">
+                        <input type="text" id="search-input" placeholder="Search..."
+                            class="fluid-search-input w-full bg-white/5 border border-white/10 rounded-full text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 focus:bg-gray-900 transition-all shadow-inner group-hover:border-white/20">
+                        <svg class="w-3 h-3 xl:w-3.5 xl:h-3.5 text-gray-500 absolute top-1/2 left-3 -translate-y-1/2 transition-colors group-hover:text-gray-400"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <!-- Search Suggestions Dropdown -->
+                        <div id="search-suggestions-dropdown"
+                            class="absolute top-full mt-2 left-0 w-full bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-2xl z-[100] hidden overflow-hidden transition-all duration-200">
+                            <!-- Dynamic Suggestions -->
+                        </div>
+                    </div>
+                </div>
+                <nav
+                    class="hidden lg:flex items-center fluid-nav-container font-medium text-gray-300 transition-all duration-300">
+                    <a href="#software" onclick="navigateToSection('software'); return false;"
+                        class="fluid-nav-link rounded-full hover:text-white hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">Software</a>
+                    <a href="#plugins" onclick="navigateToSection('plugins'); return false;"
+                        class="fluid-nav-link rounded-full hover:text-white hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">Plugins</a>
+                    <a href="#scripts" onclick="navigateToSection('scripts'); return false;"
+                        class="fluid-nav-link rounded-full hover:text-white hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">Scripts</a>
+                    <a href="#assets" onclick="navigateToSection('assets'); return false;"
+                        class="fluid-nav-link rounded-full hover:text-white hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">Assets</a>
+                    <a href="#courses" onclick="navigateToSection('courses'); return false;"
+                        class="fluid-nav-link rounded-full hover:text-white hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">Courses</a>
+                    <a href="#other-plugins" onclick="navigateToSection('other-plugins'); return false;"
+                        class="fluid-nav-link rounded-full hover:text-white hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">100+
+                        Plugins</a>
+                    <a href="#request-resource" onclick="navigateToSection('request-resource'); return false;"
+                        class="fluid-nav-link rounded-full hover:text-white hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">Request</a>
+                </nav>
+                <!-- Right Section: Auth & Actions -->
+                <div class="flex items-center fluid-header-gap transition-all duration-300">
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleTheme(event)"
+                        class="fluid-icon-btn rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-all duration-300 text-yellow-400"
+                        title="Toggle Theme" id="theme-toggle-btn">
+                        <i class="fa-solid fa-sun"></i>
+                    </button>
+
+                    <div class="h-6 w-px bg-gray-700/50 hidden lg:block mx-1 xl:mx-2"></div>
+
+                    <!-- Auth Buttons -->
+                    <div id="auth-buttons" class="flex items-center gap-2 xl:gap-3">
+                        <!-- Top Right Favorites Button -->
+                        <button onclick="showFavoritesView()"
+                            class="fluid-icon-btn rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-all duration-300 text-red-500"
+                            title="My Favorites">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+
+                        <!-- Sign Up Button (Guest View) -->
+                        <a href="auth.html#signup" id="btn-signup-header"
+                            class="hidden lg:block px-2 xl:px-4 py-1 xl:py-1.5 rounded-full border border-gray-600 hover:border-gray-400 hover:bg-white/5 text-[10px] xl:text-sm font-medium transition-all text-white whitespace-nowrap">
+                            Sign Up
+                        </a>
+
+                        <!-- Profile Button (User View) -->
+                        <button id="btn-profile" onclick="openProfileModal()"
+                            class="hidden hidden lg:flex items-center justify-center hover:bg-white/5 rounded-full p-1 transition-all border border-transparent hover:border-white/10"
+                            title="My Profile">
+                            <div
+                                class="fluid-icon-btn rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-lg overflow-hidden transition-all duration-300">
+                                <img id="header-avatar" src="" alt="" class="w-full h-full object-cover hidden">
+                                <span id="header-initials">U</span>
+                            </div>
+                            <span id="header-username" class="hidden">User</span>
+                        </button>
+                    </div>
+
+                    <button onclick="showDonationPopup(true)"
+                        class="fluid-btn gradient-btn text-white font-semibold rounded-full shadow-lg flex-shrink-0 flex items-center transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.5l8.25 6.75-8.25 6.75-8.25-6.75L12 4.5zM12 4.5v15M12 4.5h.008v.008H12z" />
+                        </svg>
+                        Donate
+                    </button>
+                    <a href="#" target="_blank" id="discord-invite-btn"
+                        class="fluid-btn gradient-btn text-white font-semibold rounded-full shadow-lg flex-shrink-0 hidden sm:flex transition-all duration-300">
+                        Join Discord
+                    </a>
+                    <a href="admin.html"
+                        class="w-9 h-9 xl:w-10 xl:h-10 rounded-full overflow-hidden shadow-lg hover:ring-2 hover:ring-purple-500 transition-all flex-shrink-0"
+                        title="Admin Panel">
+                        <img src="admin.png" alt="Admin" class="w-full h-full object-cover">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="main-view" class="page-view">
+        <main class="container mx-auto px-6 pt-32 pb-12">
+            <!-- Hero Section -->
+            <section class="text-center py-20 animate-on-scroll">
+                <h2
+                    class="text-5xl md:text-7xl font-black mb-4 tracking-tighter text-white leading-tight min-h-[160px] md:min-h-[200px] flex flex-col justify-center">
+                    The Ultimate<br>
+                    <span class="gradient-text inline-block min-h-[1.2em]"><span id="typing-text">Editing
+                            Resources</span><span class="animate-pulse">|</span></span>
+                </h2>
+                <p id="hero-description" class="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+                    Exclusive access to all the software, plugins, scripts, and assets you need. Curated for the Harsh
+                    Edits community.
+                </p>
+            </section>
+
+            <!-- OS Tab Navigation -->
+            <section id="os-tabs" class="mb-12 animate-on-scroll">
+                <div class="max-w-xl mx-auto glass-card !bg-gray-900/40 p-1 flex justify-between rounded-full">
+                    <button id="tab-windows" onclick="switchOS('windows')"
+                        class="flex-1 py-3 px-6 text-lg font-semibold rounded-full transition-all duration-300 text-white bg-indigo-600 shadow-md shadow-indigo-500/50">
+                        <span class="inline-block align-middle">Windows Resources</span>
+                    </button>
+                </div>
+            </section>
+
+            <div id="windows-content">
+                <!-- Easy Workflow Showcase Section (Windows) -->
+                <!-- Banner Carousel Section -->
+                <section id="banner-carousel-section" class="mb-20 animate-on-scroll relative group">
+                    <div id="banner-carousel-container"
+                        class="overflow-hidden relative w-full min-h-[500px] md:min-h-[600px] py-10">
+                        <!-- Slides Wrapper -->
+                        <div id="banner-slides"
+                            class="flex w-full h-full transition-transform duration-700 ease-out will-change-transform">
+                            <!-- Helper for Empty State -->
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="animate-pulse flex flex-col items-center">
+                                    <div
+                                        class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-4">
+                                    </div>
+                                    <p class="text-gray-400 font-medium">Loading Highlights...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Arrows -->
+                        <button id="carousel-prev"
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-sm text-white border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110 z-10 focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button id="carousel-next"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-sm text-white border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110 z-10 focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+
+                        <!-- Dots Indicator -->
+                        <div id="carousel-dots"
+                            class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+                            <!-- Dynamic Dots -->
+                        </div>
+
+                        <!-- Auto-slide Progress Bar -->
+                        <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-linear"
+                            id="slide-progress-bar" style="width: 0%"></div>
+                    </div>
+                </section>
+
+                <!-- Software Section (Windows) -->
+                <section id="software" class="mb-20 animate-on-scroll">
+                    <h3 id="header-adobeSoftware"
+                        class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-indigo-500 pl-4">
+                        Adobe Software</h3>
+                    <div id="software-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Plugins Section (Windows) -->
+                <section id="plugins" class="mb-20 animate-on-scroll">
+                    <h3 id="header-plugins"
+                        class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-purple-500 pl-4">
+                        Plugins</h3>
+                    <div id="plugins-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Scripts & Extensions Section (Windows) -->
+                <section id="scripts" class="mb-20 animate-on-scroll">
+                    <h3 id="header-scripts"
+                        class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-teal-500 pl-4">
+                        Scripts & Extensions</h3>
+                    <div id="scripts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Assets Section (Windows) -->
+                <section id="assets" class="mb-20 animate-on-scroll">
+                    <h3 id="header-assets"
+                        class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-rose-500 pl-4">
+                        Assets</h3>
+                    <div id="assets-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Utilities Section (Windows) -->
+                <section id="utilities" class="mb-20 animate-on-scroll">
+                    <h3 id="header-utilities"
+                        class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-yellow-500 pl-4">
+                        Utilities & Other Software</h3>
+                    <div id="utilities-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Courses Section -->
+                <section id="courses" class="mb-20 animate-on-scroll">
+                    <h3 id="header-courses"
+                        class="text-3xl font-bold mb-8 text-white tracking-tight border-l-4 border-emerald-500 pl-4">
+                        Courses</h3>
+                    <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Other Plugins Section (Windows) -->
+                <section id="other-plugins" class="mb-20 animate-on-scroll">
+                    <div class="glass-card rounded-xl p-6 md:p-8 flex flex-col gap-6">
+                        <div class="flex flex-col items-center text-center">
+                            <h5 id="plugins-pack-title" class="text-2xl font-bold text-white mb-4">
+                                100+ Plugins Pack
+                                <span
+                                    class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full ml-2 align-middle shadow-lg shadow-red-500/50 animate-pulse">HOT</span>
+                            </h5>
+                            <p id="plugins-pack-description" class="text-gray-400 mb-6 max-w-lg">
+                                Is pack mein After Effects, Premiere Pro, Photoshop, aur Illustrator ke liye 100 se bhi
+                                zyada plugins shamil hain.
+                                Aap is button par click karke unki poori list dekh sakte hain.
+                            </p>
+                            <a href="#" onclick="showPluginsList(); return false;"
+                                class="block gradient-btn text-white font-semibold py-3 px-8 rounded-full text-lg text-center">Plugins
+                                List</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Request a Resource Section -->
+            <section id="request-resource" class="mb-20 animate-on-scroll">
+                <div class="glass-card p-8">
+                    <h3 id="missing-resource-title"
+                        class="text-3xl font-bold text-white tracking-tight mb-4 text-center">Missing a Resource?</h3>
+                    <p id="missing-resource-description" class="text-gray-400 max-w-2xl mx-auto mb-8 text-center">Can't
+                        find
+                        the plugin, script, or
+                        software you're
+                        looking for? Let us know and we'll do our best to add it to the hub!</p>
+
+                    <form id="user-message-form" class="max-w-xl mx-auto space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Your Name</label>
+                            <input type="text" id="user-name" required
+                                class="w-full bg-gray-900/50 border border-gray-700 rounded-lg py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                                placeholder="Enter your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Your Request/Problem</label>
+                            <textarea id="user-message" rows="4" required
+                                class="w-full bg-gray-900/50 border border-gray-700 rounded-lg py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all resize-none"
+                                placeholder="Describe what you're looking for or the issue you're facing..."></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full gradient-btn text-white font-semibold py-3 px-8 rounded-full shadow-lg text-lg">
+                            Send Message
+                        </button>
+                        <p id="message-status" class="text-center text-sm hidden"></p>
+                    </form>
+                </div>
+            </section>
+
+
+
+            <!-- Search Results Message -->
+
+        </main>
+
+        <footer class="border-t border-gray-800/50 animate-on-scroll">
+            <div class="container mx-auto px-6 py-6 text-center text-gray-500">
+                <p>&copy; <span id="current-year"></span> Harsh Edits. All rights reserved. A resource hub for the
+                    community.</p>
+                <p class="text-sm text-gray-600 mt-2">Designed & Developed by <span
+                        class="text-gray-400 font-medium">Sudipta Mahato (Hex_storm⚡️)</span></p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Easy Workflow Detail View -->
+    <div id="easy-workflow-view" class="page-view hidden fixed inset-0 z-[100]">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <video id="easy-workflow-bg-video" autoplay loop muted playsinline
+            class="absolute inset-0 w-full h-full object-cover opacity-20 hidden">
+            <source src="MP4_20250924_084209VLOG.mp4" type="video/mp4">
+        </video>
+        <button id="workflow-back-button"
+            class="absolute top-6 right-6 gradient-btn text-white font-semibold py-2 px-5 rounded-full shadow-lg inline-flex items-center space-x-2 z-20">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span>Close</span>
+        </button>
+        <div
+            class="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center items-center text-center overflow-y-auto py-12">
+            <div class="w-full max-w-4xl">
+                <h2 id="ew-dynamic-title" class="text-6xl md:text-8xl font-black tracking-tighter text-white mb-2"></h2>
+                <p id="ew-dynamic-subtitle" class="text-2xl font-semibold gradient-text mb-8"></p>
+                <p id="ew-dynamic-description" class="text-gray-300 text-lg max-w-2xl mx-auto mb-12">
+                </p>
+
+                <div id="ew-dynamic-versions" class="flex flex-col gap-4">
+                    <!-- Dynamic Version Cards will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sub-Items View (Modeled after 100+ Plugins List) -->
+    <div id="sub-items-view" class="page-view hidden">
+        <main class="container mx-auto max-w-5xl px-6 pt-32 pb-12">
+            <button id="sub-items-back-button"
+                class="gradient-btn text-white font-semibold py-2 px-5 rounded-full shadow-lg mb-8 inline-flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Go Back</span>
+            </button>
+            <div class="text-center mb-12">
+                <h1 id="sub-items-title" class="text-4xl md:text-5xl font-bold tracking-tighter text-white">
+                    <!-- Dynamic Title -->
+                </h1>
+                <p id="sub-items-description" class="text-gray-400 mt-2">
+                    <!-- Dynamic Description -->
+                </p>
+            </div>
+            <div id="sub-items-grid"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full content-start">
+                <!-- Dynamic Content -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Item Detail View (Universal Premium Modal) -->
+    <div id="item-detail-view" class="page-view hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/30 modal-backdrop-in"
+            style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
+            onclick="goBackToMain(window.lastViewedSection)"></div>
+
+        <!-- Modal Card (Refined Dark Theme) -->
+        <div
+            class="relative w-full max-w-5xl bg-[#08080b] rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(79,70,229,0.15)] border border-white/5 flex flex-col md:flex-row modal-content-in transform transition-all">
+
+            <!-- Close Button (Purple Pill) -->
+            <button onclick="goBackToMain(window.lastViewedSection)"
+                class="absolute top-6 right-6 z-30 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-5 rounded-full shadow-lg shadow-indigo-500/30 flex items-center gap-2 transform hover:scale-105 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span>Close</span>
+            </button>
+
+            <!-- Left Col: Image -->
+            <div class="w-full md:w-[40%] bg-[#030304] relative flex items-center justify-center p-10 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-50"></div>
+
+                <div class="relative z-10 w-full aspect-square max-w-[320px] mx-auto group">
+                    <img id="item-detail-image" src="" alt="Preview"
+                        class="w-full h-full object-cover rounded-2xl shadow-2xl border border-white/10 relative z-20">
+                    <!-- Type Badge -->
+                    <div class="absolute bottom-4 left-4 z-30">
+                        <span id="item-detail-type"
+                            class="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest bg-white/10 backdrop-blur-sm text-white border border-white/10 shadow-lg">
+                            Resource
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Col: Details -->
+            <div class="w-full md:w-[60%] p-8 md:p-12 flex flex-col bg-[#08080b] relative z-20">
+                <div class="flex-1">
+                    <h3 id="item-detail-title" class="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+                    </h3>
+                    <p id="item-detail-description"
+                        class="text-gray-400 text-sm leading-relaxed mb-8 border-l-2 border-indigo-500/30 pl-4"></p>
+
+                    <div class="mb-4">
+                        <h4 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Available Versions
+                        </h4>
+                        <div id="item-versions-grid"
+                            class="flex flex-col gap-2 max-h-48 overflow-y-auto custom-scrollbar pr-2">
+                            <!-- Dynamic -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Action Fallback -->
+                <div id="item-single-action" class="hidden mt-4">
+                    <a id="item-download-btn" href="#" target="_blank"
+                        class="w-full block text-center bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-600/20 active:scale-95">
+                        Download Now
+                    </a>
+                </div>
+
+                <!-- Sub Items Action -->
+                <div id="item-sub-items-action" class="hidden mt-4">
+                    <button id="item-sub-items-btn"
+                        onclick="showSubItemsView(window.currentItemCollection, window.currentItemId)"
+                        class="w-full block text-center bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-purple-600/20 active:scale-95 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                            </path>
+                        </svg>
+                        <span id="item-sub-items-btn-text">View All Resources</span>
+                    </button>
+                </div>
+
+                <div id="item-extra-actions"
+                    class="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
+                    <!-- Report Button Injected Here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Software Detail View -->
+    <div id="software-detail-view" class="page-view hidden">
+        <div class="container mx-auto px-6 pt-32 pb-12">
+            <button id="software-back-button"
+                class="gradient-btn text-white font-semibold py-2 px-5 rounded-full shadow-lg mb-8 inline-flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Go Back</span>
+            </button>
+            <div class="flex items-center space-x-6 mb-8">
+                <img id="software-detail-logo" src="" alt="Software Logo" class="w-20 h-20">
+                <h3 id="software-detail-title" class="text-4xl font-bold text-white tracking-tight"></h3>
+            </div>
+            <div id="software-detail-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"></div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <!-- Profile Overlay Modal -->
+    <div id="profile-modal" class="fixed inset-0 z-[100] hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"
+            id="profile-backdrop" onclick="closeProfileModal()"></div>
+
+        <!-- Modal Card -->
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <div id="profile-card"
+                class="glass-card w-full max-w-sm rounded-2xl p-6 pointer-events-auto transform scale-95 opacity-0 transition-all duration-300 shadow-2xl relative overflow-hidden">
+
+                <!-- Close Button -->
+                <button onclick="closeProfileModal()"
+                    class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <!-- Profile Content -->
+                <div class="flex flex-col items-center">
+                    <!-- Avatar -->
+                    <div
+                        class="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-[2px] mb-4 shadow-xl">
+                        <div
+                            class="w-full h-full rounded-full bg-gray-900 flex items-center justify-center overflow-hidden relative group">
+                            <span id="profile-initials" class="text-3xl font-bold text-white">U</span>
+                            <img id="profile-avatar" src="" alt="" class="w-full h-full object-cover hidden">
+                        </div>
+                    </div>
+
+                    <!-- User Info -->
+                    <h3 id="profile-name" class="text-2xl font-bold text-white mb-1">User Name</h3>
+                    <p id="profile-email" class="text-gray-400 text-sm mb-6">user@example.com</p>
+
+                    <!-- Info List -->
+                    <div class="w-full space-y-3 mb-8">
+                        <div
+                            class="bg-white/5 rounded-xl p-3 flex items-center justify-between group hover:bg-white/10 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-gray-300">Member Since</span>
+                            </div>
+                            <span id="profile-joined" class="text-sm font-semibold text-white">Jan 2025</span>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div
+                            class="bg-white/5 rounded-xl p-3 flex items-center justify-between group hover:bg-white/10 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-gray-300">Password</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span id="profile-password-display"
+                                    class="text-sm font-mono text-white tracking-widest">••••••••</span>
+                                <button onclick="toggleProfilePassword()"
+                                    class="text-gray-400 hover:text-white transition-colors p-1"
+                                    title="Show/Hide Password">
+                                    <svg id="profile-eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <button onclick="handleLogout()"
+                        class="w-full gradient-btn py-3 rounded-xl font-bold tracking-wide shadow-lg relative overflow-hidden group">
+                        <span class="relative z-10 flex items-center justify-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Logout
+                        </span>
+                        <div
+                            class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        </div>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites View (New) -->
+    <div id="favorites-view" class="page-view hidden pt-32 pb-12 px-6">
+        <div class="container mx-auto">
+            <button
+                onclick="document.getElementById('favorites-view').classList.add('hidden'); document.getElementById('main-view').classList.remove('hidden'); window.scrollTo(0,0);"
+                class="gradient-btn text-white font-semibold py-2 px-5 rounded-full shadow-lg mb-8 inline-flex items-center space-x-2 transform transition-transform hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span>Back to Resources</span>
+            </button>
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl md:text-5xl font-black mb-4 text-white">Your <span
+                        class="gradient-text">Favorites</span></h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">Access your saved software, plugins, and assets in
+                    one
+                    place.</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="favorites-empty-state" class="hidden text-center py-20">
+                <div class="w-24 h-24 bg-gray-800/50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                        </path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">No Favorites Yet</h3>
+                <p class="text-gray-400 mb-8">Start adding items by clicking the heart icon on any card.</p>
+                <button
+                    onclick="document.getElementById('favorites-view').classList.add('hidden'); document.getElementById('main-view').classList.remove('hidden'); window.scrollTo(0,0);"
+                    class="gradient-btn text-white font-bold py-3 px-8 rounded-full">Explore Resources</button>
+            </div>
+
+            <!-- Favorites Grid -->
+            <div id="favorites-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamic Favorites Cards -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="custom-alert-modal"
+        class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div
+            class="bg-gray-900 border border-gray-700/50 rounded-2xl p-8 max-w-sm w-full mx-4 relative transform transition-all scale-100 shadow-2xl">
+            <div class="modal-icon w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg>
+            </div>
+            <h3 class="modal-title text-2xl font-bold text-white text-center mb-2">Notice</h3>
+            <p class="modal-message text-gray-400 text-center mb-6 text-sm">Message text goes here</p>
+            <div class="flex justify-center gap-3">
+                <button
+                    class="modal-btn-cancel hidden px-6 py-2 rounded-xl font-bold text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">
+                    Cancel
+                </button>
+                <button
+                    class="modal-btn-primary gradient-btn text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:scale-105 transition-transform">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Detail View Modal -->
+    <div id="item-detail-view" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeItemDetail()"></div>
+        <div
+            class="relative z-10 w-full max-w-4xl bg-[#0f172a] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] mx-4">
+            <button onclick="closeItemDetail()"
+                class="absolute top-4 right-4 z-20 p-2 bg-black/20 hover:bg-black/40 rounded-full text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="flex flex-col md:flex-row h-full overflow-y-auto custom-scrollbar">
+                <div class="w-full md:w-1/2 bg-black/50 p-8 flex items-center justify-center">
+                    <img id="item-detail-image" src="" alt="Preview"
+                        class="max-w-full max-h-[300px] md:max-h-[500px] object-contain rounded-lg shadow-2xl">
+                </div>
+                <div class="w-full md:w-1/2 p-8 flex flex-col">
+                    <h2 id="item-detail-title" class="text-3xl font-bold text-white mb-4"></h2>
+                    <p id="item-detail-description" class="text-gray-400 leading-relaxed mb-6 flex-1"></p>
+                    <div id="item-versions-grid" class="space-y-3 mb-6"></div>
+                    <div id="item-single-action" class="hidden mb-6">
+                        <a id="item-download-btn" href="#" target="_blank"
+                            class="w-full block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-indigo-600/20">
+                            Download Now
+                        </a>
+                    </div>
+                    <div id="item-extra-actions" class="flex flex-wrap gap-3 justify-end pt-4 border-t border-gray-800">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Broken Link Modal -->
+    <div id="report-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
+        <!-- Backdrop -->
+        <div id="report-backdrop"
+            class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+        <!-- Modal Card -->
+        <div id="report-card"
+            class="relative z-10 w-[90%] max-w-lg bg-[#18181b] border border-white/10 rounded-2xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 p-6 md:p-8">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center border border-red-500/20">
+                        <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Report Broken Link</h3>
+                </div>
+                <button onclick="closeReportModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Form -->
+            <div class="space-y-4">
+                <!-- User Name (Optional) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">Your Name (Optional)</label>
+                    <input type="text" id="report-user-name"
+                        class="w-full bg-[#09090b] border border-white/5 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500/50 transition-colors placeholder-gray-600"
+                        placeholder="Enter your name">
+                </div>
+
+                <!-- Resource Name (Read-only) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">Resource Name</label>
+                    <input type="text" id="report-resource-name"
+                        class="w-full bg-[#09090b]/50 border border-white/5 rounded-lg px-4 py-3 text-gray-300 cursor-not-allowed"
+                        readonly>
+                </div>
+
+                <!-- Category (Read-only) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">Category</label>
+                    <input type="text" id="report-category"
+                        class="w-full bg-[#09090b]/50 border border-white/5 rounded-lg px-4 py-3 text-gray-300 cursor-not-allowed"
+                        readonly>
+                </div>
+
+                <!-- Additional Information -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">Additional Information</label>
+                    <textarea id="report-details" rows="3"
+                        class="w-full bg-[#09090b] border border-white/5 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500/50 transition-colors placeholder-gray-600"
+                        placeholder="Describe the issue (e.g., link not working, wrong file, etc.)"></textarea>
+                    <p id="report-error-msg" class="hidden text-red-500 text-sm mt-1 animate-pulse">
+                        <span class="font-bold">Attention:</span> Please provide details to help us fix this faster.
+                    </p>
+                </div>
+
+                <!-- Submit Button -->
+                <button onclick="submitBrokenLinkReport()"
+                    class="w-full mt-4 bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-red-600/20 active:scale-95 flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    Submit Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plugins List View -->
+    <div id="plugins-list-view" class="page-view hidden">
+        <main class="container mx-auto max-w-5xl px-6 pt-32 pb-12">
+            <button id="list-back-button"
+                class="gradient-btn text-white font-semibold py-2 px-5 rounded-full shadow-lg mb-8 inline-flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Go Back</span>
+            </button>
+            <div class="text-center mb-12">
+                <h1 id="plugins-list-title" class="text-4xl md:text-5xl font-bold tracking-tighter text-white">100+
+                    Plugins <span class="gradient-text">List</span></h1>
+                <p id="plugins-list-description" class="text-gray-400 mt-2">Yahaan saare plugins ki poori list hai, unhe
+                    download karne ke liye un par
+                    click karein.</p>
+            </div>
+            <div class="glass-card p-6 md:p-8">
+                <div id="plugins-list-grid"
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-2 w-full content-start">
+                    <!-- Dynamic Content Loaded from Firebase via script.js -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scroll To Top Button -->
+    <!-- Scroll To Top Button -->
+    <div id="scroll-to-top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="agent.js"></script>
+
+    <!-- Header Scale Script -->
+    <script>
+        // Smoothly resize header if it overflows (Zoom/Laptop fix)
+        (function () {
+            const headerOuter = document.querySelector('#header');
+            const headerContainer = document.querySelector('#header > div');
+            const headerInner = document.querySelector('#header-glass-card');
+
+            if (!headerInner) return;
+
+            function checkHeaderFit() {
+                // Reset to measure
+                headerInner.style.transform = 'scale(1)';
+                headerInner.style.width = '100%';
+
+                const availableWidth = window.innerWidth;
+                const contentWidth = headerInner.scrollWidth;
+                const buffer = 40; // px
+
+                // If content is wider than window (plus buffer), scale it down
+                if (contentWidth > (availableWidth - buffer)) {
+                    const scale = (availableWidth - buffer) / contentWidth;
+                    // Limit minimum scale to avoid tiny header
+                    const finalScale = Math.max(0.7, scale);
+
+                    headerInner.style.transform = `scale(${finalScale})`;
+                    // Optional: adjust width to compensate for centering if needed, but transform-origin: top usually handles it visually well enough for "shrink to fit"
+                } else {
+                    headerInner.style.transform = 'scale(1)';
+                }
+            }
+
+            // Run on resize
+            window.addEventListener('resize', checkHeaderFit);
+            // Run on load and after short delay for fonts
+            window.addEventListener('load', checkHeaderFit);
+            setTimeout(checkHeaderFit, 500);
+            setTimeout(checkHeaderFit, 2000); // extra check
+        })();
+    </script>
+
+    <!-- AI Agent Hint Bubble -->
+    <div id="ai-hint-bubble"
+        style="position:fixed; bottom:90px; right:20px; z-index:9998; display:flex; flex-direction:column; align-items:flex-end; gap:8px; animation:bubbleEntrance 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; pointer-events:none;">
+        <!-- Speech bubble -->
+        <div style="
+            background: linear-gradient(135deg, rgba(109,40,217,0.95), rgba(190,24,93,0.95));
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 18px 18px 4px 18px;
+            padding: 12px 16px;
+            max-width: 220px;
+            box-shadow: 0 8px 32px rgba(109,40,217,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+            pointer-events: auto;
+            cursor: pointer;
+            position: relative;
+        " onclick="document.getElementById('ai-hint-bubble').style.display='none'">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                <div style="
+                    width:28px; height:28px; border-radius:50%;
+                    background: rgba(255,255,255,0.2);
+                    display:flex; align-items:center; justify-content:center;
+                    font-size:14px; flex-shrink:0;
+                    animation: aiPulse 2s ease-in-out infinite;
+                ">🤖</div>
+                <div>
+                    <p style="color:#fff; font-weight:700; font-size:12px; margin:0; line-height:1.2;">AI Assistant</p>
+                    <div style="display:flex; align-items:center; gap:4px; margin-top:2px;">
+                        <span
+                            style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:aiPulse 1.5s ease-in-out infinite;"></span>
+                        <span style="color:rgba(255,255,255,0.7); font-size:10px;">Online & Ready</span>
+                    </div>
+                </div>
+            </div>
+            <p style="color:rgba(255,255,255,0.9); font-size:12px; margin:0; line-height:1.5;">
+                👋 Hey! Ask me anything about plugins, software, or resources!
+            </p>
+            <!-- Close hint -->
+            <p style="color:rgba(255,255,255,0.4); font-size:10px; margin:6px 0 0; text-align:right;">tap to dismiss</p>
+        </div>
+
+        <!-- Arrow pointing down to chat button -->
+        <div style="
+            width: 0; height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid rgba(190,24,93,0.9);
+            margin-right: 22px;
+        "></div>
+    </div>
+
+    <style>
+        @keyframes bubbleEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes aiPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(0.9);
+            }
+        }
+    </style>
+
+
+
+    <!-- Theme Toggle Javascript (Inline to prevent cache failure) -->
+    <script>
+        let isDarkTheme = true;
+
+        function applyThemeUpdate() {
+            isDarkTheme = !isDarkTheme;
+            const body = document.body;
+            const btnIcon = document.querySelector('#theme-toggle-btn i');
+
+            if (isDarkTheme) {
+                body.classList.remove('light-theme');
+                if (btnIcon) btnIcon.className = 'fa-solid fa-sun text-xs xl:text-sm';
+                localStorage.setItem('harsh_theme', 'dark');
+            } else {
+                body.classList.add('light-theme');
+                if (btnIcon) btnIcon.className = 'fa-solid fa-moon text-xs xl:text-sm';
+                localStorage.setItem('harsh_theme', 'light');
+            }
+        }
+
+        window.toggleTheme = function (event) {
+            if (!document.startViewTransition) {
+                applyThemeUpdate();
+                return;
+            }
+
+            // Calculate the radius of the expanding circle from click point
+            const x = event.clientX;
+            const y = event.clientY;
+            const endRadius = Math.hypot(
+                Math.max(x, innerWidth - x),
+                Math.max(y, innerHeight - y)
+            );
+
+            const transition = document.startViewTransition(() => {
+                applyThemeUpdate();
+            });
+
+            // Smooth Circular Expansion for BOTH Dark and Light switches
+            transition.ready.then(() => {
+                document.documentElement.animate(
+                    {
+                        clipPath: [
+                            `circle(0px at ${x}px ${y}px)`,
+                            `circle(${endRadius}px at ${x}px ${y}px)`
+                        ]
+                    },
+                    {
+                        duration: 700,
+                        easing: "ease-in-out",
+                        // Always animate the NEW theme expanding outward over the OLD theme
+                        pseudoElement: "::view-transition-new(root)",
+                    }
+                );
+            });
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('harsh_theme');
+            if (savedTheme === 'light') {
+                isDarkTheme = false;
+                document.body.classList.add('light-theme');
+                const btnIcon = document.querySelector('#theme-toggle-btn i');
+                if (btnIcon) btnIcon.className = 'fa-solid fa-moon text-xs xl:text-sm';
+            }
+        });
+    </script>
+</body>
+
+
+</html>
