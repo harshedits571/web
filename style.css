@@ -150,14 +150,17 @@ body.is-transitioning {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* --- Super Light Cards (No Blurs) --- */
+/* --- Super Light Cards (Balanced Blur) --- */
 .glass-card {
-    background: #111116; /* Solid dark background */
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: transform 0.2s ease;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 2rem;
     position: relative;
     overflow: hidden;
-    border-radius: 1rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
 }
 
 .ios-glass-card {
@@ -628,10 +631,10 @@ body.no-scroll {
     width: 600px;
     height: 600px;
     border-radius: 50%;
-    filter: blur(80px);
+    /* Removed */
     opacity: 0.4;
     animation: leakMove 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-    mix-blend-mode: screen;
+    /* Removed */
 }
 
 .leak-1 {
@@ -686,7 +689,7 @@ body.no-scroll {
     background: linear-gradient(45deg, #4f46e5, #9333ea);
     z-index: -1;
     border-radius: 2.6rem;
-    filter: blur(10px); /* Reduced from 25px */
+    /* Removed */ /* Reduced from 25px */
     opacity: 0.4;
     transition: opacity 0.3s ease;
 }
@@ -697,19 +700,19 @@ body.no-scroll {
 
 @keyframes banner-pulse {
     0% {
-        filter: blur(25px);
+        /* Removed */
         opacity: 0.6;
         background-position: 0% 50%;
     }
 
     50% {
-        filter: blur(35px);
+        /* Removed */
         opacity: 0.8;
         background-position: 100% 50%;
     }
 
     100% {
-        filter: blur(25px);
+        /* Removed */
         opacity: 0.6;
         background-position: 0% 50%;
     }
@@ -721,7 +724,7 @@ body.no-scroll {
 @keyframes modalBackdropIn {
     from {
         opacity: 0;
-        backdrop-filter: blur(0px);
+        /* Removed */
     }
 
     to {
@@ -738,7 +741,7 @@ body.no-scroll {
 
     to {
         opacity: 0;
-        backdrop-filter: blur(0px);
+        /* Removed */
     }
 }
 
@@ -873,8 +876,9 @@ header {
 }
 
 header.scrolled {
-    background: rgba(5, 5, 16, 0.7);
-    /* Removed backdrop-filter for performance */
+    background: rgba(5, 5, 16, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -1124,7 +1128,7 @@ header.scrolled {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    mix-blend-mode: difference;
+    /* Removed */
     transition: transform 0.15s ease-out, background 0.3s ease, width 0.3s ease, height 0.3s ease;
     display: none;
 }

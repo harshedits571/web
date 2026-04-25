@@ -63,7 +63,7 @@
             height: 60px;
             background-color: rgba(255, 255, 255, 0.1);
             border-color: transparent;
-            backdrop-filter: blur(2px);
+            /* Removed for performance */
         }
 
         #mouse-follower {
@@ -112,7 +112,7 @@
         .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
+            /* Removed for performance */
             z-index: 0;
             animation: float 20s infinite ease-in-out;
             opacity: 0.4;
@@ -163,9 +163,9 @@
 
         /* ___ Glass Card Premium ___ */
         .glass-card {
-            background: rgba(20, 20, 25, 0.6);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(20, 20, 25, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow:
                 0 25px 50px -12px rgba(0, 0, 0, 0.5),
@@ -502,7 +502,7 @@
 
             <!-- Loading Overlay -->
             <div id="loading-overlay"
-                class="absolute inset-0 bg-[#050505]/80 backdrop-blur-md flex flex-col items-center justify-center z-50 hidden opacity-0 transition-all duration-300 rounded-3xl">
+                class="absolute inset-0 bg-[#050505]/80  flex flex-col items-center justify-center z-50 hidden opacity-0 transition-all duration-300 rounded-3xl">
                 <div class="relative">
                     <div class="w-16 h-16 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin">
                     </div>
@@ -526,7 +526,7 @@
     </div>
 
     <div id="forgot-password-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+        <div class="absolute inset-0 bg-black/80  transition-opacity"
             onclick="closeForgotPasswordModal()"></div>
         <div
             class="relative bg-[#111116] border border-white/10 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all scale-100 p-8 text-center space-y-6">

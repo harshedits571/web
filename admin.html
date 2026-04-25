@@ -84,7 +84,7 @@
             height: 60px;
             background-color: rgba(255, 255, 255, 0.1);
             border-color: transparent;
-            backdrop-filter: blur(2px);
+            /* Removed */
         }
 
         #mouse-follower {
@@ -118,7 +118,7 @@
         .aurora-shape {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
+            /* Removed */
             opacity: 0.5;
             animation: float 20s ease-in-out infinite;
             will-change: transform;
@@ -185,9 +185,9 @@
 
         /* Enhanced Glassmorphism */
         .glass-card {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1.5rem;
             box-shadow:
@@ -226,8 +226,8 @@
 
         /* Sidebar Enhancements */
         aside {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
             border-right: 1px solid rgba(99, 102, 241, 0.2);
             box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
             position: relative;
@@ -250,7 +250,7 @@
         .sidebar-link {
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(8px);
+            /* Removed */
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -525,7 +525,7 @@
             position: absolute;
             inset: 0;
             background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
+            /* Removed */
         }
 
         /* Glass Modal Content */
@@ -539,7 +539,7 @@
 
             /* Premium glass effect */
             background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(24px) saturate(180%);
+            /* Removed */
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 1.5rem;
             box-shadow:
@@ -578,7 +578,7 @@
             min-width: 320px;
             padding: 1rem;
             background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px) saturate(180%);
+            /* Removed for performance */
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -757,7 +757,7 @@
         .header-role-badge {
             padding: 0.5rem 2rem;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
-            backdrop-filter: blur(20px) saturate(180%);
+            /* Removed */
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 3rem;
             box-shadow:
@@ -822,7 +822,7 @@
         textarea,
         select {
             background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(12px);
+            /* Removed */
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
         }
@@ -854,7 +854,7 @@
 
         /* Modal 3D Animations */
         #item-modal {
-            backdrop-filter: blur(16px);
+            /* Removed */
             animation: modalFadeIn 0.3s ease-out;
         }
 
@@ -873,7 +873,7 @@
         /* Dashboard Stat Cards */
         .stat-card {
             background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px) saturate(180%);
+            /* Removed */
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1.25rem;
             padding: 1.5rem;
@@ -974,7 +974,7 @@
         .light-leak {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
+            /* Removed */
             opacity: 0.6;
             animation: float-leak 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -1030,8 +1030,8 @@
             position: relative;
             z-index: 10;
             background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            /* Removed */
+            -webkit-/* Removed */
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow:
                 0 25px 50px -12px rgba(0, 0, 0, 0.5),
@@ -2507,7 +2507,7 @@
 
                 <!-- User Details Modal (Audit View) -->
                 <div id="user-details-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden p-4">
-                    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeUserDetailsModal()"></div>
+                    <div class="absolute inset-0 bg-black/80 " onclick="closeUserDetailsModal()"></div>
                     <div class="glass-card w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col relative z-10 shadow-2xl border-white/10">
                         <!-- Modal Header -->
                         <div class="p-6 border-b border-gray-800 flex justify-between items-start">
@@ -2875,7 +2875,7 @@
 
     <!-- Add/Edit Modal -->
     <div id="item-modal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden overflow-y-auto py-10">
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80  hidden overflow-y-auto py-10">
         <div class="glass-card p-8 w-full max-w-2xl max-h-full overflow-y-auto relative m-4">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -3080,7 +3080,7 @@
 
     <!-- Bulk Import Modal -->
     <div id="bulk-import-modal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80  hidden">
         <div class="glass-card p-8 w-full max-w-2xl m-4">
             <h3 class="text-2xl font-bold text-white mb-4">Bulk Import Plugins</h3>
             <p class="text-gray-400 text-sm mb-4">Paste your list below. Each line should be independent.<br>Format:
@@ -3113,7 +3113,7 @@
 
     <!-- Image Picker Modal -->
     <div id="image-picker-modal"
-        class="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-sm hidden overflow-y-auto py-10">
+        class="fixed inset-0 z-[60] flex items-center justify-center bg-black/90  hidden overflow-y-auto py-10">
         <div class="glass-card p-8 w-full max-w-5xl max-h-[90vh] overflow-y-auto relative m-4">
             <button onclick="closeImagePicker()" class="absolute top-4 right-4 text-gray-400 hover:text-white z-10">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -3132,7 +3132,7 @@
 
     <!-- Message Detail Modal -->
     <div id="message-detail-modal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden overflow-y-auto py-10">
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80  hidden overflow-y-auto py-10">
         <div class="glass-card p-8 w-full max-w-2xl max-h-full overflow-y-auto relative m-4">
             <button onclick="closeMessageModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -3172,7 +3172,7 @@
 
     <!-- User Favorites Modal -->
     <div id="user-favorites-modal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80  hidden p-4">
         <div class="glass-card p-8 w-full max-w-lg max-h-[80vh] flex flex-col relative">
             <button onclick="closeFavoritesModal()"
                 class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
@@ -7779,7 +7779,7 @@
             if (!modal) {
                 const modalHTML = `
                     <div id="report-details-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
-                    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeReportDetailsModal()"></div>
+                    <div class="absolute inset-0 bg-black/80  transition-opacity" onclick="closeReportDetailsModal()"></div>
                     <div class="relative w-[95%] max-w-lg bg-[#18181b] border border-gray-700/50 rounded-2xl shadow-2xl flex flex-col max-h-[85vh] transform transition-all scale-100 overflow-hidden">
                         
                         <!-- Header -->
@@ -7865,7 +7865,7 @@
     </script>
     <!-- Banner Modal -->
     <div id="banner-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeBannerModal()"></div>
+        <div class="absolute inset-0 bg-black/80 " onclick="closeBannerModal()"></div>
         <div
             class="bg-[#0f172a] rounded-2xl shadow-2xl w-full max-w-2xl relative z-10 border border-indigo-500/30 flex flex-col max-h-[90vh]">
             <div
@@ -8059,7 +8059,7 @@
     </div>
     <!-- Premium Bulk Import Modal -->
     <div id="sub-items-bulk-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity"
+        <div class="absolute inset-0 bg-black/60  transition-opacity"
             onclick="closeSubItemsImportModal()">
         </div>
         <div

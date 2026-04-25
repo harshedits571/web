@@ -51,7 +51,7 @@
 
     <!-- Payment Wall Overlay -->
     <div id="paywall-overlay"
-        class="fixed inset-0 z-[20000] flex items-center justify-center bg-black/90 backdrop-blur-xl transition-all duration-500 opacity-0 pointer-events-none">
+        class="fixed inset-0 z-[20000] flex items-center justify-center bg-black/90  transition-all duration-500 opacity-0 pointer-events-none">
         <div class="glass-card p-12 max-w-xl w-11/12 text-center relative border-2 border-indigo-500/30">
             <div
                 class="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-full flex items-center justify-center shadow-2xl ring-4 ring-black">
@@ -86,7 +86,7 @@
     </div>
 
     <!-- Payment Success Modal (Hidden by default) -->
-    <div id="payment-success-modal" class="fixed inset-0 z-[30000] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-500">
+    <div id="payment-success-modal" class="fixed inset-0 z-[30000] flex items-center justify-center bg-black/80  opacity-0 pointer-events-none transition-all duration-500">
         <div class="glass-card p-10 max-w-lg w-11/12 text-center relative border border-yellow-500/30 shadow-[0_0_50px_rgba(234,179,8,0.2)]">
             <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-2xl mx-auto mb-6">
                 <i class="fa-solid fa-crown text-4xl text-white animate-bounce"></i>
@@ -144,7 +144,7 @@
                         </svg>
                         <!-- Search Suggestions Dropdown -->
                         <div id="search-suggestions-dropdown"
-                            class="absolute top-full mt-2 left-0 w-full bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-2xl z-[100] hidden overflow-hidden transition-all duration-200">
+                            class="absolute top-full mt-2 left-0 w-full bg-gray-900/95  border border-gray-700/50 rounded-2xl shadow-2xl z-[100] hidden overflow-hidden transition-all duration-200">
                             <!-- Dynamic Suggestions -->
                         </div>
                     </div>
@@ -268,14 +268,14 @@
 
                         <!-- Navigation Arrows -->
                         <button id="carousel-prev"
-                            class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-sm text-white border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110 z-10 focus:outline-none">
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60  text-white border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110 z-10 focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button id="carousel-next"
-                            class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-sm text-white border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110 z-10 focus:outline-none">
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60  text-white border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110 z-10 focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7" />
@@ -427,11 +427,9 @@
 
     <!-- Easy Workflow Detail View -->
     <div id="easy-workflow-view" class="page-view hidden fixed inset-0 z-[100]">
-        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
-        <video id="easy-workflow-bg-video" autoplay loop muted playsinline
-            class="absolute inset-0 w-full h-full object-cover opacity-20 hidden">
-            <source src="MP4_20250924_084209VLOG.mp4" type="video/mp4">
-        </video>
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-[#0f172a] to-black opacity-80"></div>
+        </div>
         <button id="workflow-back-button"
             class="absolute top-6 right-6 gradient-btn text-white font-semibold py-2 px-5 rounded-full shadow-lg inline-flex items-center space-x-2 z-20">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -485,8 +483,7 @@
     <!-- Item Detail View (Universal Premium Modal) -->
     <div id="item-detail-view" class="page-view hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/30 modal-backdrop-in"
-            style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
+        <div class="absolute inset-0 bg-black/80"
             onclick="goBackToMain(window.lastViewedSection)"></div>
 
         <!-- Modal Card (Refined Dark Theme) -->
@@ -513,7 +510,7 @@
                     <!-- Type Badge -->
                     <div class="absolute bottom-4 left-4 z-30">
                         <span id="item-detail-type"
-                            class="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest bg-white/10 backdrop-blur-sm text-white border border-white/10 shadow-lg">
+                            class="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest bg-white/10  text-white border border-white/10 shadow-lg">
                             Resource
                         </span>
                     </div>
@@ -594,7 +591,7 @@
     <!-- Profile Overlay Modal -->
     <div id="profile-modal" class="fixed inset-0 z-[100] hidden">
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"
+        <div class="absolute inset-0 bg-black/60  transition-opacity duration-300 opacity-0"
             id="profile-backdrop" onclick="closeProfileModal()"></div>
 
         <!-- Modal Card -->
@@ -760,7 +757,7 @@
 
     <!-- Custom Alert Modal -->
     <div id="custom-alert-modal"
-        class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+        class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 ">
         <div
             class="bg-gray-900 border border-gray-700/50 rounded-2xl p-8 max-w-sm w-full mx-4 relative transform transition-all scale-100 shadow-2xl">
             <div class="modal-icon w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border-4">
@@ -783,7 +780,7 @@
 
     <!-- Item Detail View Modal -->
     <div id="item-detail-view" class="fixed inset-0 z-50 hidden flex items-center justify-center">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeItemDetail()"></div>
+        <div class="absolute inset-0 bg-black/95" onclick="closeItemDetail()"></div>
         <div
             class="relative z-10 w-full max-w-4xl bg-[#0f172a] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] mx-4">
             <button onclick="closeItemDetail()"
@@ -818,7 +815,7 @@
     <div id="report-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
         <!-- Backdrop -->
         <div id="report-backdrop"
-            class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+            class="absolute inset-0 bg-black/70  opacity-0 transition-opacity duration-300"></div>
 
         <!-- Modal Card -->
         <div id="report-card"
@@ -977,7 +974,7 @@
         <!-- Speech bubble -->
         <div style="
             background: linear-gradient(135deg, rgba(109,40,217,0.95), rgba(190,24,93,0.95));
-            backdrop-filter: blur(8px);
+            
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 18px 18px 4px 18px;
             padding: 12px 16px;
