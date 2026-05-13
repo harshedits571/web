@@ -1,0 +1,5 @@
+# Redirect from old Netlify subdomain to new custom domain
+# The '*' matches any path, and ':splat' appends it to the new domain
+# '301!' ensures a permanent redirect even if a file exists at that path on the old site
+
+https://softwherehub.netlify.app/*    https://softwarehubs.in/:splat    301!

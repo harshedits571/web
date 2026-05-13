@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions - Harsh Edits</title>
+    <meta name="description" content="Find answers to common questions about Harsh Edits resources, downloads, and Pro access.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/SM.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="assets/libs/tailwind.min.js"></script>
+    
+    <!-- Firebase Compat SDKs (Non-Module for file:// support) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <!-- Visitor Analytics Tracker -->
+    <script src="visitor-tracker.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .content-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        .faq-question {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, margin-top 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            margin-top: 1rem;
+        }
+        .faq-item.active .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- UI Polishes -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div id="mouse-glow"></div>
+
+    <!-- Animated Mesh Background -->
+    <div class="mesh-background">
+        <div class="mesh-shape shape1"></div>
+        <div class="mesh-shape shape2"></div>
+        <div class="mesh-shape shape3"></div>
+        <div class="mesh-shape shape4"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="w-full px-[2vw] xl:px-8 py-4 max-w-[1820px] mx-auto">
+            <div class="glass-card !rounded-full px-6 py-2 flex justify-between items-center w-full">
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="fluid-logo font-bold tracking-tighter text-white hover:scale-105 transition-all">
+                        Harsh<span class="gradient-text">Edits</span>
+                    </a>
+                </div>
+                <nav class="hidden lg:flex items-center gap-6 font-medium text-gray-300">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <a href="about.html" class="hover:text-white transition-colors">About</a>
+                    <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="gradient-btn px-6 py-2 rounded-full text-white font-bold text-sm">Back to Hub</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-20 px-6 relative z-10">
+        <div class="content-container">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter">Help <span class="gradient-text">& FAQ</span></h1>
+                <p class="text-gray-400 text-lg">Everything you need to know about Harsh Edits.</p>
+            </div>
+
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold text-white mb-6 px-4 border-l-4 border-indigo-600">General Questions</h2>
+                
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span class="text-white font-semibold">How do I download resources?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Simply browse through the sections, find the item you need, and click on it. You will see detailed information and a download button. You need to be logged in to access downloads.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span class="text-white font-semibold">What is Pro Access?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Pro Access is a lifetime membership that gives you unlimited access to all premium software, plugins, scripts, and assets. One-time payment, lifetime updates!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span class="text-white font-semibold">Is it safe to download?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Yes! All resources shared on Harsh Edits are verified by our team and used personally by Harsh Edits for creative projects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold text-white mb-6 px-4 border-l-4 border-purple-600">Account & Payment</h2>
+                
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span class="text-white font-semibold">Why do I need to log in?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Logging in helps us track your downloads and manage your Pro Access. It also allows you to save your favorite resources for quick access later.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span class="text-white font-semibold">What payment methods are accepted?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            We accept all major UPI apps (GPay, PhonePe, Paytm), Credit/Debit cards, and Net Banking through our secure Razorpay gateway.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card text-center !p-12 reveal is-visible">
+                <h2 class="text-3xl font-bold text-white mb-4">Still have questions?</h2>
+                <p class="text-gray-400 mb-8">Can't find what you're looking for? Reach out to our support team.</p>
+                <div class="flex justify-center gap-4">
+                    <a href="contact.html" class="gradient-btn px-10 py-3 rounded-full text-white font-bold">Contact Support</a>
+                    <a href="https://discord.gg/harshedits" target="_blank" class="bg-indigo-600/20 border border-indigo-600/30 hover:bg-indigo-600/30 px-10 py-3 rounded-full text-white font-bold transition-all">Join Discord</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer-premium border-t border-white/5 pt-20 pb-10 animate-on-scroll">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Column -->
+                <div class="space-y-6">
+                    <h1 class="text-2xl font-bold tracking-tighter text-white">
+                        Harsh<span class="gradient-text">Edits</span>
+                    </h1>
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+                        The ultimate software hub for creators. Providing premium Adobe resources, plugins, scripts, and VFX assets to elevate your creative workflow.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <a href="https://www.instagram.com/harshedits57/" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gradient-to-tr hover:from-purple-600 hover:to-pink-600 transition-all duration-300">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://youtube.com/@HarshEdits57" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-600 transition-all duration-300">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="https://discord.gg/yourlink" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-indigo-600 transition-all duration-300">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                        <a href="https://twitter.com/harshedits57" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-400 transition-all duration-300">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resources Column -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-xs">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="index.html#software" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Adobe Software</a></li>
+                        <li><a href="index.html#plugins" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">After Effects Plugins</a></li>
+                        <li><a href="index.html#scripts" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Scripts & Extensions</a></li>
+                        <li><a href="index.html#assets" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Creative Assets</a></li>
+                        <li><a href="index.html#courses" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Video Courses</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support Column -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-xs">Support</h4>
+                    <ul class="space-y-4">
+                        <li><a href="faq.html" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Help Center</a></li>
+                        <li><a href="faq.html" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">FAQ</a></li>
+                        <li><a href="index.html#request-resource" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Request a Plugin</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Report a Problem</a></li>
+                        <li><a href="https://discord.gg/harshedits" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Join Community</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Column -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-xs">About Page</h4>
+                    <ul class="space-y-4">
+                        <li><a href="about.html" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">About Harsh Edits</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Privacy Policy</a></li>
+                        <li><a href="terms.html#licensing" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Licensing</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-indigo-400 transition-colors text-sm">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <p class="text-gray-500 text-sm">
+                    &copy; 2026 Harsh Edits. All rights reserved.
+                </p>
+                <p class="text-gray-500 text-sm">
+                    Designed & Developed by <span class="text-white font-medium hover:text-indigo-400 transition-colors cursor-pointer">Sudipta Mahato (Hex_storm⚡️)</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(element) {
+            const isActive = element.classList.contains('active');
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            // Toggle current
+            if (!isActive) element.classList.add('active');
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
